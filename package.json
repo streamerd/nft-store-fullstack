@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@alch/alchemy-sdk": "^1.2.0",
     "@coinbase/wallet-sdk": "^3.4.0",
     "@thirdweb-dev/react": "^2",
     "@thirdweb-dev/sdk": "^2",

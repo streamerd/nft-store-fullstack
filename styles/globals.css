@@ -1,23 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 /* Box sizing rules */
-*,
+/* *,
 *::before,
 *::after {
   box-sizing: border-box;
-}
+} */
 
 /* Set core body defaults */
-body {
+/* body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
   --hello: -100%;
   padding-bottom: 250px;
-}
+} */
 
 /* Inherit fonts for inputs and buttons */
-input,
+/* input,
 button,
 textarea,
 select {
@@ -42,4 +42,77 @@ body {
 
 h2 {
   font-size: 2rem;
+} */
+
+/* new code */
+
+:root {
+	--fmbs-purple: #7E5A9C;
+	--fmbs-blue: #5378F1;
+}
+
+body {
+	color: #333;
+	font-family: 'Abel', sans-serif;
+	min-height: 100vh;
+	/* Needed for the slant offset */
+	margin-top: -20px;
+	background-color: var(--fmbs-blue);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+h1 {
+	font-size: 36px;
+}
+
+h2 {
+	font-size: 26px;
+	margin: 0;
+}
+
+h3 {
+	font-size: 20px;
+	font-weight: 400;
+}
+
+.fmbs-bg {
+	transform: skewY(-1deg);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+}
+
+.fmbs-bg-wrapper {
+	position: relative;
+	padding: 20px 0;
+}
+
+.fmbs-bg-wrapper:last-child {
+	margin-bottom: -20px;
+}
+
+.fmbs-bg--purple {
+	background-color: var(--fmbs-purple);
+}
+
+.fmbs-bg--blue {
+	background-color: var(--fmbs-blue);
+}
+
+.fmbs-bg--shapes {
+	background-image: url( '../public/images/shapes_bg.png' );
+	background-size: 100% auto;
+}
+
+.fmbs-page-content {
+	
+	max-width: 1260px;
+	padding: 0 30px;
+	margin: 0 auto;
 }
