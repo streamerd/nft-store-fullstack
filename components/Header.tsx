@@ -13,40 +13,40 @@ export default function Header() {
   const disconnectWallet = useDisconnect();
 
   return (
-    <div className={`${styles['fmbs-header']} 'fmbs-bg-wrapper'}`}>
+    <div className={`fmbs-header fmbs-bg-wrapper`}>
         <div className={'fmbs-bg fmbs-bg--purple'}></div>
-        <div className={[styles['fmbs-header-wrapper'], styles['fmbs-page-content']].join(" ")}>
+        <div className={'fmbs-header-wrapper fmbs-page-content'}>
           <span  className={'fmbs-page-content'}>
-            <div className={styles["fmbs-header__logo-icon"]}>
+            <div className={"fmbs-header__logo-icon"}>
               <Image src={fmLogo} alt="logo" />
             </div>
-            <div className={styles["fmbs-header__logo-text"]}>
+            <div className={"fmbs-header__logo-text"}>
               <Image src={logoText} alt="logo text" />
             </div>
           </span>
 
-          <nav className={styles["fmbs-header-nav"]}>
-            <ul className={styles["fmbs-header-nav__list"]} role="menubar">
-              <li className={styles["fmbs-header-nav__list-item"]}>
-                <a className={styles["fmbs-header-nav__list-link"]}>[Launches]</a>
-                <div className={styles["fmbs-header-sub-menu"]}>
-                  <div className={[styles['fmbs-header-sub-menu-wrapper'], styles['fmbs-page-content']].join(" ")}>
-                    <ul className={styles["fmbs-header-subnav"]} role="menu">
-                      <li className={styles["fmbs-header-subnav__list-item"]}>
-                        <a className={styles["fmbs-header-subnav__link"]}>[Artists]</a>
+          <nav className={"fmbs-header-nav"}>
+            <ul className={"fmbs-header-nav__list"} role="menubar">
+              <li className={"fmbs-header-nav__list-item"}>
+                <a className={"fmbs-header-nav__list-link"}>[Launches]</a>
+                <div className={"fmbs-header-sub-menu"}>
+                  <div className={'fmbs-header-sub-menu-wrapper fmbs-page-content'}>
+                    <ul className={"fmbs-header-subnav"} role="menu">
+                      <li className={"fmbs-header-subnav__list-item"}>
+                        <a className={"fmbs-header-subnav__link"}>[Artists]</a>
                       </li>
-                      <li className={styles["fmbs-header-subnav__list-item"]}>
-                        <a className={styles["fmbs-header-subnav__link"]}>[Auctions]</a>
+                      <li className={"fmbs-header-subnav__list-item"}>
+                        <a className={"fmbs-header-subnav__link"}>[Auctions]</a>
                       </li>
-                      <li className={styles["fmbs-header-subnav__list-item"]}>
-                        <a className={styles["fmbs-header-subnav__link"]}>[Collabs]</a>
+                      <li className={"fmbs-header-subnav__list-item"}>
+                        <a className={"fmbs-header-subnav__link"}>[Collabs]</a>
                       </li>
-                      <li className={styles["fmbs-header-subnav__list-item"]}>
-                        <a className={styles["fmbs-header-subnav__link"]}>[Events]</a>
+                      <li className={"fmbs-header-subnav__list-item"}>
+                        <a className={"fmbs-header-subnav__link"}>[Events]</a>
                       </li>
                     </ul>
-                    <div className={styles["fmbs-header-sub-menu-display"]}>
-                      <div className={styles["fmbs-header-sub-menu-display__text"]}>
+                    <div className={"fmbs-header-sub-menu-display"}>
+                      <div className={"fmbs-header-sub-menu-display__text"}>
                         <h2>[Auction #5]</h2>
                         <p>
                           Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -56,7 +56,7 @@ export default function Header() {
                         <a>[see all]</a>
                       </div>
                       <Image
-                        className={styles["fmbs-header-sub-menu__img"]}
+                        className={"fmbs-header-sub-menu__img"}
                         src="https://www.macmillandictionary.com/external/slideshow/thumb/Grey_thumb.png"
                         alt="grey thumb"
                         height={"160px"}
@@ -66,22 +66,22 @@ export default function Header() {
                   </div>
                 </div>
               </li>
-              <li className={styles["fmbs-header-nav__list-item"]}>
+              <li className={"fmbs-header-nav__list-item"}>
                 <a
-                  className={styles["fmbs-header-nav__list-link"]}
+                  className={"fmbs-header-nav__list-link"}
                   href="https://nft-store-fullstack-thirdweb.vercel.app"
                 >
                   Marketplace
                 </a>
               </li>
-              <li className={styles["fmbs-header-nav__list-item"]}>
-                <a className={styles["fmbs-header-nav__list-link"]}>About</a>
+              <li className={"fmbs-header-nav__list-item"}>
+                <a className={"fmbs-header-nav__list-link"}>About</a>
               </li>
             </ul>
           </nav>
-          <div className={styles["fmbs-header__search-wrapper"]}>
+          <div className={"fmbs-header__search-wrapper"}>
             <input
-              className={styles["fmbs-header__search-input"]}
+              className={"fmbs-header__search-input"}
               placeholder="Search item here"
             />
           </div>
@@ -89,7 +89,7 @@ export default function Header() {
           {/* todo add disconnect css style for  button */}
           {address ? (
             <button
-            className={styles["fmbs-header__connect"]}
+            className={"fmbs-header__connect"}
             type="button"
             id="walletButton"
             onClick={() => disconnectWallet()}
@@ -97,7 +97,7 @@ export default function Header() {
             Disconnect
           </button>
           ) : (<button
-            className={styles["fmbs-header__connect"]}
+            className={"fmbs-header__connect"}
             type="button"
             id="walletButton"
             onClick={() => connectWithMetamask()}

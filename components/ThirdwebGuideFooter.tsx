@@ -44,29 +44,29 @@ export default function ThirdwebGuideFooter() {
           onClick={() => window.open(url, "_blank")}
         />
       </div> */}
-      <div className={[styles['fmbs-footer'], styles['fmbs-bg-wrapper']].join(" ")}>
-        <div className={[styles['fmbs-bg'], styles['fmbs-bg--blue']].join(" ")}></div>
-        <div className={styles["fmbs-footer-wrapper"]}>
+      <div className={'fmbs-footer fmbs-bg-wrapper'}>
+        <div className={'fmbs-bg fmbs-bg--blue'}></div>
+        <div className={"fmbs-footer-wrapper"}>
           {/* <div className="fmbs-footer__primary-section fmbs-page-content"> */}
-          <div className={[styles['fmbs-footer__primary-section'], styles['fmbs-page-content']].join(" ")}>
-            <div className={styles["fmbs-footer-form"]}>
-              <h4 className={styles["fmbs-footer-form__header"]}>
+          <div className={'fmbs-footer__primary-section fmbs-page-content'}>
+            <div className={"fmbs-footer-form"}>
+              <h4 className={"fmbs-footer-form__header"}>
                 Get the latest updates
               </h4>
-              <form className={styles["fmbs-footer-form__input-wrapper"]}>
+              <form className={"fmbs-footer-form__input-wrapper"}>
                 <input
                   type="text"
-                  className={styles["fmbs-footer-form__input"]}
+                  className={"fmbs-footer-form__input"}
                   placeholder="Your Email"
                 />
                 <input
                   type="submit"
-                  className={styles["fmbs-footer-form__submit"]}
+                  className={"fmbs-footer-form__submit"}
                   value="Email Me!"
                 />
               </form>
             </div>
-            <div className={styles["fmbs-footer__link-column"]}>
+            <div className={"fmbs-footer__link-column"}>
               <h3>NFT Marketplace</h3>
               <a href="javacript://">Music</a>
               <a href="javacript://">Art</a>
@@ -74,7 +74,7 @@ export default function ThirdwebGuideFooter() {
               <a href="javacript://">Generative</a>
               <a href="javacript://">Category</a>
             </div>
-            <div className={styles["fmbs-footer__link-column"]}>
+            <div className={"fmbs-footer__link-column"}>
               <h3>Merch</h3>
               <a href="javacript://">Womens</a>
               <a href="javacript://">Mens</a>
@@ -85,7 +85,7 @@ export default function ThirdwebGuideFooter() {
               <a href="javacript://">Giftcards</a>
               <a href="javacript://">Sale</a>
             </div>
-            <div className={styles["fmbs-footer__link-column"]}>
+            <div className={"fmbs-footer__link-column"}>
               <h3>About</h3>
               <a href="javacript://">About Us</a>
               <a href="javacript://">Responsibility</a>
@@ -93,11 +93,11 @@ export default function ThirdwebGuideFooter() {
               <a href="javacript://">Explore our stories</a>
             </div>
           </div>
-          <div className={styles["fmbs-footer__secondary-section"]}>
+          <div className={"fmbs-footer__secondary-section"}>
             {/* <div className="fmbs-footer__secondary-section-wrapper fmbs-page-content"> */}
-            <div className={[styles['fmbs-footer__secondary-section-wrapper'], styles['fmbs-page-content']].join(" ")}>
+            <div className={'fmbs-footer__secondary-section-wrapper fmbs-page-content'}>
               <p>future modern, Inc. All Rights Reserved</p>
-              <div className={styles["fmbs-footer__socials"]}>
+              <div className={"fmbs-footer__socials"}>
                 <a href="javascript://">
                   <Image src={instagramLogo} alt="image 1" />
                 </a>

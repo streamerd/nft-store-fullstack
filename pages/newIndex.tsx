@@ -22,20 +22,14 @@ const NewHome: NextPage = () => {
     run()
   }, [])
 
-  // console.log(`title: ${JSON.stringify(nftMetadata.title)}`);
-  // console.log(`description: ${JSON.stringify(nftMetadata.description)}`);
-  // console.log(`image url: ${JSON.stringify(nftMetadata.media[0].gateway)}`);
-
   return (
-    <>
       <div className="fmbs-bg-wrapper">
         <div className="fmbs-bg fmbs-bg--shapes"></div>
         <div className="fmbs-gallery fmbs-page-content">
           <h1 className="fmbs-gallery__header">Featured NFTs</h1>
           <>
-          {tokenMetaData?.description}
+          { tokenMetaData ? tokenMetaData?.description : <div className="fmbs-gallery-grid fmbs-gallery--loading"></div>}
           </>
-          <div className="fmbs-gallery-grid fmbs-gallery--loading"></div>
           <div className="fmbs-gallery__button-wrapper">
             <a className="fmbs-gallery__button" href="javascript://">
               [See all items]
@@ -43,7 +37,6 @@ const NewHome: NextPage = () => {
           </div>
         </div>
       </div>
-    </>
   );
 };
 
