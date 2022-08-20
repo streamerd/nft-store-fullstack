@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import afututuremodern from "../data/LaunchArtists/afuturemodern.json";
 // import paris from "../data/LaunchArtists/ParisOG.json"
 import { Nft } from "@alch/alchemy-sdk";
+import ImageBox from "../components/ImageBox";
 
 interface NewHomeProps {
   nftData: Nft;
@@ -38,7 +39,7 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData }) => {
     <div className="fmbs-bg-wrapper">
       <div className="fmbs-bg fmbs-bg--shapes"></div>
       <div className="fmbs-gallery fmbs-page-content">
-        {/* <h1 className="fmbs-gallery__header">Featured NFTs</h1> */}
+        <h1 className="fmbs-gallery__header">Featured NFTs</h1>
 
         <>
           {nftData ? (
@@ -46,33 +47,24 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData }) => {
               <h2>{nftData?.rawMetadata?.name}</h2>
               <p>{nftData?.description}</p>
               {
-                <div
-                  id='ImageComponent'
-                  style={{
-                    background: "#C4C4C4",
-                    height: ImageDimensions.height.toString() + "px",
-                    width: ImageDimensions.width.toString() + "px",
-                  }}
-                >
-                  <Image
-                    src={nftData?.rawMetadata?.image as string}
-                    width={ImageDimensions.width + "px"}
-                    height={ImageDimensions.height + "px"}
-                    color="#C4C4C4"
-                    placeholder="empty"
-                    alt="featured"
-                  />
-                </div>
+                <ImageBox
+                  id="ImageComponent"
+                  backgroundColor="#C4C4C4"
+                  height={ImageDimensions.height.toString() + "px"}
+                  width={ImageDimensions.width.toString() + "px"}
+                  alt="featured"
+                  src={nftData?.rawMetadata?.image as string}
+                />
               }
             </>
           ) : (
             <div className="fmbs-gallery-grid fmbs-gallery--loading"></div>
           )}
-        <div className="fmbs-gallery__button-wrapper">
-          <a className="fmbs-gallery__button" href="javascript://">
-            Browse
-          </a>
-        </div>
+          <div className="fmbs-gallery__button-wrapper">
+            <a className="fmbs-gallery__button" href="javascript://">
+              Browse
+            </a>
+          </div>
         </>
       </div>
     </div>
