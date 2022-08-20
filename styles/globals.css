@@ -19,8 +19,11 @@ body {
 	background-color: var(--fmbs-blue);
 }
 
-* {
-	box-sizing: border-box;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 h1 {

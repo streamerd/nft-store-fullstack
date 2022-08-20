@@ -1,34 +1,42 @@
-import { NextPage } from "next";
+import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import {getTokenMetadata} from "../scripts/Metadata.js"
 import {useEffect, useState} from "react";
 
 import afututuremodern from "../data/LaunchArtists/afuturemodern.json"
+// import paris from "../data/LaunchArtists/ParisOG.json"
 import { Nft } from "@alch/alchemy-sdk";
 
-// (getTokenMetadata(address, id)) ==> data from the token?
+interface NewHomeProps{ 
+  nftData: Nft;
+}
 
-
-const NewHome: NextPage = () => {
+export const getStaticProps: GetServerSideProps<NewHomeProps> = async (context) => {
+  // Call an external API endpoint to get posts.
+  const nftData = await getTokenMetadata(afututuremodern.afuturemodern.artworks[0].token_address, afututuremodern.afuturemodern.artworks[0].token_id) || null
   
-  const [tokenMetaData, setTokenMetaData] = useState<Nft | null>(null)
+  return {
+    props: {
+      nftData: JSON.parse(JSON.stringify(nftData)) 
+    },
+  }
+}
 
-
-  useEffect(() => { 
-    const run = async () => {
-      const result: Nft = await getTokenMetadata(afututuremodern.afuturemodern.artworks[0].token_address, afututuremodern.afuturemodern.artworks[0].token_id)
-      setTokenMetaData(result)
-    }
-    run()
-  }, [])
-
+const NewHome: NextPage<NewHomeProps> = ({nftData}) => {
+  
+  const [tokenMetaData, setTokenMetaData] = useState<Nft | null>(nftData)
+  
   return (
       <div className="fmbs-bg-wrapper">
         <div className="fmbs-bg fmbs-bg--shapes"></div>
         <div className="fmbs-gallery fmbs-page-content">
           <h1 className="fmbs-gallery__header">Featured NFTs</h1>
           <>
-          { tokenMetaData ? tokenMetaData?.description : <div className="fmbs-gallery-grid fmbs-gallery--loading"></div>}
+          { tokenMetaData ? <>
+                              {/* <img src={tokenMetaData?.rawMetadata?.image} alt={'home-image'}/> */}
+                              <h2>{tokenMetaData?.rawMetadata?.name}</h2>
+                              <p>{tokenMetaData?.description}</p>
+          </> : <div className="fmbs-gallery-grid fmbs-gallery--loading"></div>}
           </>
           <div className="fmbs-gallery__button-wrapper">
             <a className="fmbs-gallery__button" href="javascript://">
