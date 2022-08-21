@@ -38,13 +38,18 @@ const ListingPage: NextPage = () => {
 
   // Initialize the marketplace contract
   const marketplace = useMarketplace(
-    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
+    "0x93bFDdcAC61259831e5Fd5362b49dd35d16eFd18"
+    // process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
   );
 
   // Hooks to detect user is on the right network and switch them if they are not
   const networkMismatch = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
 
+  const enum ImageDimensions {
+    width = 368,
+    height = 368,
+  }
   // When the component mounts, ask the marketplace for the listing with the given listingId
   // Using the listingid from the URL (via router.query)
   useEffect(() => {
@@ -119,15 +124,24 @@ const ListingPage: NextPage = () => {
       alert(error);
     }
   }
+ 
 
   return (
     <div className={styles.container} style={{}}>
       <div className={styles.listingContainer}>
         <div className={styles.leftListing}>
-          <MediaRenderer
+          {/* <MediaRenderer
             src={listing.asset.image}
             className={styles.mainNftImage}
-          />
+          /> */}
+              
+              <video
+                poster={listing?.asset?.image as string}
+                width={ImageDimensions.width.toString() + "px"}
+                height={ImageDimensions.height.toString() + "px"}
+                src={listing?.asset?.animation_url as string}
+                controls={true}
+              />
         </div>
 
         <div className={styles.rightListing}>
