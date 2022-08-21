@@ -86,12 +86,6 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData, imageGalleryData }) => {
           <Button href="javascript://" value="Browse" />
         </>
       </div>
-
-      {/* <div className="fmbs-gallery fmbs-page-content">
-        <h1 className="fmbs-gallery__header">Featured NFTs</h1>
-        {imageGridItems}
-        <Button href="javascript://" value="See all artists" />
-      </div> */}
       <FeaturedNftsGrid >
       {imageGridItems}
       </FeaturedNftsGrid>
