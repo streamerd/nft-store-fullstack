@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import afututuremodern from "../data/LaunchArtists/afuturemodern.json";
 // import paris from "../data/LaunchArtists/ParisOG.json"
 import { Nft } from "@alch/alchemy-sdk";
-import ImageBox from "../components/ImageBox";
-
 interface NewHomeProps {
   nftData: Nft;
 }
@@ -22,6 +20,7 @@ export const getStaticProps: GetServerSideProps<NewHomeProps> = async (
       afututuremodern.afuturemodern.artworks[0].token_id
     )) || null;
 
+  console.log(JSON.stringify(nftData));
   return {
     props: {
       nftData: JSON.parse(JSON.stringify(nftData)),
@@ -47,14 +46,21 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData }) => {
               <h2>{nftData?.rawMetadata?.name}</h2>
               <p>{nftData?.description}</p>
               {
-                <ImageBox
-                  id="ImageComponent"
-                  backgroundColor="#C4C4C4"
-                  height={ImageDimensions.height.toString() + "px"}
-                  width={ImageDimensions.width.toString() + "px"}
-                  alt="featured"
-                  src={nftData?.rawMetadata?.image as string}
-                />
+                // <ImageBox
+                //   id="ImageComponent"
+                //   backgroundColor="#C4C4C4"
+                //   height={ImageDimensions.height.toString() + "px"}
+                //   width={ImageDimensions.width.toString() + "px"}
+                //   alt="featured"
+                //   src={nftData?.media[0].gateway as string}
+                // />
+            
+                <video
+                width={ImageDimensions.width.toString() + "px"}
+                height={ImageDimensions.height.toString() + "px"}
+                src={nftData?.media[0].gateway as string}
+                controls={true}
+              />
               }
             </>
           ) : (
