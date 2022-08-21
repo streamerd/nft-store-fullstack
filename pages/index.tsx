@@ -13,8 +13,9 @@ const Home: NextPage = () => {
 
   // Connect your marketplace smart contract here (replace this address)
   const marketplace = useMarketplace(
-    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
-  );
+    // process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
+    "0x93bFDdcAC61259831e5Fd5362b49dd35d16eFd18"
+    );
 
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
