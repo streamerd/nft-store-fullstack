@@ -1,11 +1,10 @@
 import { GetServerSideProps, NextPage } from "next";
 import { getTokenMetadata } from "../scripts/Metadata.js";
 
-import fmLogo from '../public/images/fm_logo.png'
+import fmLogo from "../public/images/fm_logo.png";
 import Link from "next/link";
 
 import afututuremodern from "../data/LaunchArtists/afuturemodern.json";
-// import paris from "../data/LaunchArtists/ParisOG.json"
 import { Nft } from "@alch/alchemy-sdk";
 import ImageBox from "../components/ImageBox";
 import Button from "../components/Button";
@@ -21,21 +20,12 @@ const enum ImageDimensions {
   width = 368,
   height = 368,
 }
-import {
-  useActiveListings,
-  useMarketplace,
-} from "@thirdweb-dev/react";
-import { useRouter } from "next/router";
-
-
+import { useActiveListings, useMarketplace } from "@thirdweb-dev/react";
 
 export const getStaticProps: GetServerSideProps<NewHomeProps> = async (
   context
 ) => {
   // Call an external API endpoint to get posts.
-
-
-  
   const nftData =
     (await getTokenMetadata(
       afututuremodern.afuturemodern.artworks[0].token_address,
@@ -43,8 +33,7 @@ export const getStaticProps: GetServerSideProps<NewHomeProps> = async (
     )) || null;
 
   const imageGalleryData = await handleGetNftData();
-  
-  console.log(JSON.stringify(nftData));
+
   return {
     props: {
       nftData: JSON.parse(JSON.stringify(nftData)),
@@ -53,9 +42,7 @@ export const getStaticProps: GetServerSideProps<NewHomeProps> = async (
   };
 };
 
-  
 const NewHome: NextPage<NewHomeProps> = ({ nftData, imageGalleryData }) => {
-
   const imageGridItems = imageGalleryData?.map((igd, i) => (
     <>
       <ImageBox
@@ -65,10 +52,10 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData, imageGalleryData }) => {
         alt={igd.title}
         backgroundColor="#C4C4C4"
         id={igd.title}
-        src={igd?.rawMetadata?.external_url as string || fmLogo.src}
+        src={(igd?.rawMetadata?.external_url as string) || fmLogo.src}
       />
-      <h3>{igd.rawMetadata?.name || 'not found'}</h3>
-      <p>{igd.rawMetadata?.description || 'not found'}</p>
+      <h3>{igd.rawMetadata?.name || "not found"}</h3>
+      <p>{igd.rawMetadata?.description || "not found"}</p>
     </>
   ));
 
@@ -76,16 +63,12 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData, imageGalleryData }) => {
     width = 368,
     height = 368,
   }
-    // process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS
+  
   const marketplace = useMarketplace(
-    "0x93bFDdcAC61259831e5Fd5362b49dd35d16eFd18" 
+    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS
   );
   const { data: listings, isLoading: loadingListings } =
-  useActiveListings(marketplace);
-  
-
-  
-  console.log("listings:", JSON.stringify(listings))
+    useActiveListings(marketplace);
 
   return (
     <div className="fmbs-bg-wrapper">
@@ -94,45 +77,38 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData, imageGalleryData }) => {
         <h1 className="fmbs-gallery__header">Featured NFTs</h1>
 
         <>
-
-{
-            // If the listings are loading, show a loading message
+          {
             loadingListings ? (
               <div>Loading listings...</div>
             ) : (
-              // Otherwise, show the listings
-              <div >
+              <div>
                 {listings?.map((listing) => (
                   <div
                     key={listing.id}
                     // className={styles.listingShortView}
                     // onClick={() => router.push(`/listing/${listing.id}`)}
                   >
-                   <>
-              {/* <h2>{nftData?.rawMetadata?.name}</h2> */}
-              {/* <h2>{listing?.asset?.name}</h2> */}
+                    <>
+                      {/* <h2>{nftData?.rawMetadata?.name}</h2> */}
+                      {/* <h2>{listing?.asset?.name}</h2> */}
 
-              <h2>
-                      <Link href={`/listing/${listing.id}`}>
-                        <a>{listing.asset.name}</a>
-                      </Link>
-                    </h2>
+                      <h2>
+                        <Link href={`/listing/${listing.id}`}>
+                          <a>{listing.asset.name}</a>
+                        </Link>
+                      </h2>
 
-              <p>{listing?.asset?.description}</p>
-              {
-          
-            
-               
-                <video
-                poster={listing?.asset?.image as string}
-                width={ImageDimensions.width.toString() + "px"}
-                height={ImageDimensions.height.toString() + "px"}
-                src={listing?.asset?.animation_url as string}
-                controls={true}
-              />
-              }
-            </>
-                 
+                      <p>{listing?.asset?.description}</p>
+                      {
+                        <video
+                          poster={listing?.asset?.image as string}
+                          width={ImageDimensions.width.toString() + "px"}
+                          height={ImageDimensions.height.toString() + "px"}
+                          src={listing?.asset?.animation_url as string}
+                          controls={true}
+                        />
+                      }
+                    </>
 
                     <p>
                       <b>{listing.buyoutCurrencyValuePerToken.displayValue}</b>{" "}
@@ -152,9 +128,7 @@ const NewHome: NextPage<NewHomeProps> = ({ nftData, imageGalleryData }) => {
         </>
       </div>
 
-      <FeaturedNftsGrid >
-      {imageGridItems}
-      </FeaturedNftsGrid>
+      <FeaturedNftsGrid>{imageGridItems}</FeaturedNftsGrid>
     </div>
   );
 };
