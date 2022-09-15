@@ -38,8 +38,7 @@ const ListingPage: NextPage = () => {
 
   // Initialize the marketplace contract
   const marketplace = useMarketplace(
-    "0x93bFDdcAC61259831e5Fd5362b49dd35d16eFd18"
-    // process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
+    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS
   );
 
   // Hooks to detect user is on the right network and switch them if they are not
@@ -87,7 +86,7 @@ const ListingPage: NextPage = () => {
         await marketplace?.direct.makeOffer(
           listingId, // The listingId of the listing we want to make an offer for
           1, // Quantity = 1
-          NATIVE_TOKENS[ChainId.Rinkeby].wrapped.address, // Wrapped Ether address on Rinkeby
+          NATIVE_TOKENS[ChainId.Goerli].wrapped.address, // Wrapped Ether address on Rinkeby
           bidAmount // The offer amount the user entered
         );
       }
@@ -124,7 +123,6 @@ const ListingPage: NextPage = () => {
       alert(error);
     }
   }
- 
 
   return (
     <div className={styles.container} style={{}}>
@@ -134,14 +132,14 @@ const ListingPage: NextPage = () => {
             src={listing.asset.image}
             className={styles.mainNftImage}
           /> */}
-              
-              <video
-                poster={listing?.asset?.image as string}
-                width={ImageDimensions.width.toString() + "px"}
-                height={ImageDimensions.height.toString() + "px"}
-                src={listing?.asset?.animation_url as string}
-                controls={true}
-              />
+
+          <video
+            poster={listing?.asset?.image as string}
+            width={ImageDimensions.width.toString() + "px"}
+            height={ImageDimensions.height.toString() + "px"}
+            src={listing?.asset?.animation_url as string}
+            controls={true}
+          />
         </div>
 
         <div className={styles.rightListing}>

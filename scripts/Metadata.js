@@ -8,7 +8,7 @@ const { Network, initializeAlchemy, getNftMetadata } = require("@alch/alchemy-sd
 // Optional Config object
 const settings = {
   apiKey: process.env.NEXT_ALCHEMY_APIKEY,
-  network: Network.ETH_MAINNET, 
+  network: Network.ETH_GOERLI, 
   maxRetries: 10,
 };
 
