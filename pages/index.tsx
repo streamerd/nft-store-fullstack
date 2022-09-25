@@ -59,17 +59,19 @@ const Home: NextPage<NewHomeProps> = ({ imageGalleryData, nftData }) => {
 
   const imageGridItems = imageGalleryData?.map((igd, i) => (
     <>
-      <ImageBox
-        key={i}
-        width="300px"
-        height="300px"
-        alt={igd.title}
-        backgroundColor="#C4C4C4"
-        id={igd.title}
-        src={(igd?.rawMetadata?.external_url as string) || fmLogo.src}
-      />
-      <h3>{igd.rawMetadata?.name || "not found"}</h3>
-      <p>{igd.rawMetadata?.description || "not found"}</p>
+      <div className="fmbs-gallery-grid-item">
+        <ImageBox
+          key={i}
+          width="300px"
+          height="300px"
+          alt={igd.title}
+          backgroundColor="#C4C4C4"
+          id={igd.title}
+          src={(igd?.rawMetadata?.external_url as string) || fmLogo.src}
+        />
+        <h3>{igd.rawMetadata?.name || "not found"}</h3>
+        <p>{igd.rawMetadata?.description || "not found"}</p>
+      </div>
     </>
   ));
 
