@@ -11,7 +11,9 @@ const FeaturedNftsGrid: NextPage<{}> = ({
   return (
     <div className="fmbs-gallery fmbs-page-content">
         <h1 className="fmbs-gallery__header">Featured NFTs</h1>
+        <div className="fmbs-gallery-grid">
         {children}
+        </div>
         <Button href="javascript://" value="See all artists" />
       </div>
   );

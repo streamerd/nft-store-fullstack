@@ -17,6 +17,8 @@ body {
 	/* Needed for the slant offset */
 	margin-top: -20px;
 	background-color: var(--fmbs-blue);
+	margin-left: 0;
+	margin-right: 0;
 }
 
 
