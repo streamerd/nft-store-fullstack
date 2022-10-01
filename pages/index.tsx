@@ -57,22 +57,39 @@ const Home: NextPage<NewHomeProps> = ({ imageGalleryData, nftData }) => {
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
 
-  const imageGridItems = imageGalleryData?.map((igd, i) => (
-    <>
-      <div className="fmbs-gallery-grid-item">
-        <ImageBox
-          key={i}
-          width="300px"
-          height="300px"
-          alt={igd.title}
-          backgroundColor="#C4C4C4"
-          id={igd.title}
-          src={(igd?.rawMetadata?.external_url as string) || fmLogo.src}
-        />
-        <h3>{igd.rawMetadata?.name || "not found"}</h3>
-        <p>{igd.rawMetadata?.description || "not found"}</p>
-      </div>
-    </>
+  const imageGridItems = listings?.map((listing) => (
+    <div
+      key={listing.id}
+      className={"fmbs-gallery-grid-item"}
+      // onClick={() => router.push(`/listing/${listing.id}`)}
+    >
+      <>
+        {/* <h2>{nftData?.rawMetadata?.name}</h2> */}
+        {/* <h2>{listing?.asset?.name}</h2> */}
+
+        <h2>
+          <Link href={`/listing/${listing.id}`}>
+            <a>{listing.asset.name}</a>
+          </Link>
+        </h2>
+
+        <p>{listing?.asset?.description}</p>
+        {
+          <video
+            poster={listing?.asset?.image as string}
+            width={ImageDimensions.width.toString() + "px"}
+            height={ImageDimensions.height.toString() + "px"}
+            src={listing?.asset?.animation_url as string}
+            controls={true}
+          />
+        }
+      </>
+
+      <p>
+        <b>{listing.buyoutCurrencyValuePerToken.displayValue}</b>{" "}
+        {listing.buyoutCurrencyValuePerToken.symbol}
+      </p>
+    </div>
   ));
 
   return (
@@ -83,47 +100,12 @@ const Home: NextPage<NewHomeProps> = ({ imageGalleryData, nftData }) => {
           {loadingListings ? (
             <div>Loading listings...</div>
           ) : (
-            <div>
-              {listings?.map((listing) => (
-                <div
-                  key={listing.id}
-                  // className={styles.listingShortView}
-                  // onClick={() => router.push(`/listing/${listing.id}`)}
-                >
-                  <>
-                    {/* <h2>{nftData?.rawMetadata?.name}</h2> */}
-                    {/* <h2>{listing?.asset?.name}</h2> */}
-
-                    <h2>
-                      <Link href={`/listing/${listing.id}`}>
-                        <a>{listing.asset.name}</a>
-                      </Link>
-                    </h2>
-
-                    <p>{listing?.asset?.description}</p>
-                    {
-                      <video
-                        poster={listing?.asset?.image as string}
-                        width={ImageDimensions.width.toString() + "px"}
-                        height={ImageDimensions.height.toString() + "px"}
-                        src={listing?.asset?.animation_url as string}
-                        controls={true}
-                      />
-                    }
-                  </>
-
-                  <p>
-                    <b>{listing.buyoutCurrencyValuePerToken.displayValue}</b>{" "}
-                    {listing.buyoutCurrencyValuePerToken.symbol}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <FeaturedNftsGrid>{imageGridItems}</FeaturedNftsGrid>
           )}
           <Button href="javascript://" value="Browse" />
         </>
+        {/* <FeaturedNftsGrid>{imageGridItems}</FeaturedNftsGrid> */}
       </div>
-      <FeaturedNftsGrid>{imageGridItems}</FeaturedNftsGrid>
     </div>
   );
 };
