@@ -69,11 +69,6 @@ h3 {
 	background-color: var(--fmbs-blue);
 }
 
-.fmbs-bg--shapes {
-	background-image: url( '../public/images/shapes_bg.png' );
-	background-size: 100% auto;
-}
-
 .fmbs-page-content {
 	
 	max-width: 1260px;
