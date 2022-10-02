@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import afututuremodern from "../data/LaunchArtists/afuturemodern.json";
 // import paris from "../data/LaunchArtists/ParisOG.json"
 import { Nft } from "@alch/alchemy-sdk";
+import Link from "next/link.js";
 
 interface ImageBoxProps {
   width: string;
@@ -14,7 +15,7 @@ interface ImageBoxProps {
   id: string;
   alt: string;
   src: string;
-  className?: string | undefined
+  className?: string | undefined;
 }
 
 const ImageBox: NextPage<ImageBoxProps> = ({
@@ -24,7 +25,7 @@ const ImageBox: NextPage<ImageBoxProps> = ({
   id,
   alt,
   src,
-  className
+  className,
 }) => {
   return (
     <div
@@ -33,17 +34,19 @@ const ImageBox: NextPage<ImageBoxProps> = ({
         background: backgroundColor,
         height,
         width,
-        
+        cursor: "pointer",
       }}
       className={className}
     >
-      <Image
-        src={src}
-        width={width}
-        height={height}
-        placeholder="empty"
-        alt={alt}
-      />
+      <Link href={`/listing/${id}`} passHref>
+        <Image
+          src={src}
+          width={width}
+          height={height}
+          placeholder="empty"
+          alt={alt}
+        />
+      </Link>
     </div>
   );
 };

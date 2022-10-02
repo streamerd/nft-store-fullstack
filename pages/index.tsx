@@ -61,12 +61,9 @@ const Home: NextPage = () => {
       <div key={listing.id} className={"fmbs-gallery-grid-item"}>
         <>
           {handleGetListingMediaType(listing)}
-
-          <h2>
-            <Link href={`/listing/${listing.id}`}>
-              <a>{listing.asset.name}</a>
-            </Link>
-          </h2>
+          <h4>
+            <Link href={`/listing/${listing.id}`}>{listing.asset.name}</Link>
+          </h4>
         </>
       </div>
     );
