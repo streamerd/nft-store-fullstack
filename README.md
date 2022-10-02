@@ -65,7 +65,7 @@ The thirdweb React provider makes it straightforward to let your users connect t
 Open `pages/_app.tsx` we wrap all of our pages in the `<ThirdwebProvider>` component.
 
 ```tsx
-<ThirdwebProvider desiredChainId={ChainId.Rinkeby}>
+<ThirdwebProvider desiredChainId={ChainId.Goerli}>
   <Component {...pageProps} />
 </ThirdwebProvider>
 ```
