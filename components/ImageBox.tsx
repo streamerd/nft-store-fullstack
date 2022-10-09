@@ -1,7 +1,6 @@
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { getTokenMetadata } from "../scripts/Metadata.js";
-import { useEffect, useState } from "react";
 
 import afututuremodern from "../data/LaunchArtists/afuturemodern.json";
 // import paris from "../data/LaunchArtists/ParisOG.json"
@@ -38,15 +37,13 @@ const ImageBox: NextPage<ImageBoxProps> = ({
       }}
       className={className}
     >
-      <Link href={`/listing/${id}`} passHref>
-        <Image
-          src={src}
-          width={width}
-          height={height}
-          placeholder="empty"
-          alt={alt}
-        />
-      </Link>
+      <Image
+        src={src}
+        width={width}
+        height={height}
+        placeholder="empty"
+        alt={alt}
+      />
     </div>
   );
 };

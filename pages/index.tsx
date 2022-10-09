@@ -9,6 +9,8 @@ import ImageBox from "../components/ImageBox";
 import FeaturedNftsGrid from "../components/FeaturedNftsGrid";
 import bg from "../public/images/shapes_bg.png";
 import { AuctionListing, DirectListing } from "@thirdweb-dev/sdk";
+import { useState } from "react";
+import LightBox from "../components/LightBox";
 
 const enum ImageDimensions {
   width = 368,
@@ -21,13 +23,25 @@ const Home: NextPage = () => {
     process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
   );
 
-  const { data: listings, isLoading: loadingListings } = useActiveListings(
-    marketplace,
-    {
-      // limits amount of nfts to 9 in the featured artists grid
-      count: 9,
-    }
-  );
+  const {
+    data: listings,
+    isLoading: loadingListings,
+    isFetchedAfterMount,
+    isRefetching,
+  } = useActiveListings(marketplace, {
+    // limits amount of nfts to 9 in the featured artists grid
+    count: 9,
+  });
+
+  const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+  const [selectedListing, setSelectedListing] = useState<
+    AuctionListing | DirectListing
+  >();
+
+  const handleImageTypes = (listing: AuctionListing | DirectListing) =>
+    listing.asset.image?.endsWith(".png") ||
+    listing.asset.image?.endsWith(".jpeg") ||
+    listing.asset.image?.endsWith(".jpg");
 
   const handleGetListingMediaType = (
     listing: AuctionListing | DirectListing
@@ -42,7 +56,7 @@ const Home: NextPage = () => {
           controls={true}
         />
       );
-    } else if (listing.asset.image?.endsWith(".png")) {
+    } else if (handleImageTypes(listing)) {
       return (
         <ImageBox
           width={ImageDimensions.width.toString() + "px"}
@@ -56,38 +70,62 @@ const Home: NextPage = () => {
     } else return <span>media not supported</span>;
   };
 
+  const handleClickImageGridItem = (
+    listing: AuctionListing | DirectListing
+  ) => {
+    setIsLightBoxOpen(() => {
+      setSelectedListing(listing);
+      return true;
+    });
+  };
+
   const imageGridItems = listings?.map((listing) => {
     return (
-      <div key={listing.id} className={"fmbs-gallery-grid-item"}>
-        <>
+      <>
+        <div
+          key={listing.id}
+          className={"fmbs-gallery-grid-item"}
+          onClick={() => handleClickImageGridItem(listing)}
+        >
           {handleGetListingMediaType(listing)}
-          <h4>
-            <Link href={`/listing/${listing.id}`}>{listing.asset.name}</Link>
-          </h4>
-        </>
-      </div>
+          <h4>{listing.asset.name}</h4>
+        </div>
+      </>
     );
   });
 
   return (
-    <div className="fmbs-bg-wrapper">
-      <div
-        className="fmbs-bg"
-        style={{
-          backgroundImage: `url(${bg.src})`,
-          backgroundSize: `100% auto`,
-        }}
-      ></div>
-      <div className="fmbs-gallery fmbs-page-content">
-        <>
-          {loadingListings ? (
-            <div>Loading listings...</div>
-          ) : (
-            <FeaturedNftsGrid>{imageGridItems}</FeaturedNftsGrid>
-          )}
-        </>
+    <>
+      <div className="fmbs-bg-wrapper">
+        <div
+          className="fmbs-bg"
+          style={{
+            backgroundImage: `url(${bg.src})`,
+            backgroundSize: `100% auto`,
+          }}
+        ></div>
+        <div className="fmbs-gallery fmbs-page-content">
+          <>
+            {loadingListings ? (
+              <div>Loading listings...</div>
+            ) : (
+              <FeaturedNftsGrid>{imageGridItems}</FeaturedNftsGrid>
+            )}
+          </>
+        </div>
       </div>
-    </div>
+      {isLightBoxOpen && (
+        <LightBox
+          alt={selectedListing?.asset.name as string}
+          backgroundColor="blue"
+          height={ImageDimensions.height + "px"}
+          width={ImageDimensions.width + "px"}
+          id="lightbox-dialog"
+          listing={selectedListing}
+          onClose={() => setIsLightBoxOpen(false)}
+        />
+      )}
+    </>
   );
 };
 
