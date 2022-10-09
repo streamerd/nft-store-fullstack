@@ -89,6 +89,7 @@ const Home: NextPage = () => {
         >
           {handleGetListingMediaType(listing)}
           <h4>{listing.asset.name}</h4>
+          <h6>{listing.sellerAddress}</h6>
         </div>
       </>
     );
