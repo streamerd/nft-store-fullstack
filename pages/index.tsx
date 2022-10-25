@@ -19,85 +19,87 @@ const enum ImageDimensions {
 
 const Home: NextPage = () => {
   // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
-  );
+  // const marketplace = useMarketplace(
+  //   process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
+  // );
 
-  const {
-    data: listings,
-    isLoading: loadingListings,
-    isFetchedAfterMount,
-    isRefetching,
-  } = useActiveListings(marketplace, {
-    // limits amount of nfts to 9 in the featured artists grid
-    count: 9,
-  });
+  // const {
+  //   data: listings,
+  //   isLoading: loadingListings,
+  //   isFetchedAfterMount,
+  //   isRefetching,
+  // } = useActiveListings(marketplace, {
+  //   // limits amount of nfts to 9 in the featured artists grid
+  //   count: 9,
+  // });
 
-  const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
-  const [selectedListing, setSelectedListing] = useState<
-    AuctionListing | DirectListing
-  >();
+  // const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+  // const [selectedListing, setSelectedListing] = useState<
+  //   AuctionListing | DirectListing
+  // >();
 
-  const handleImageTypes = (listing: AuctionListing | DirectListing) =>
-    listing.asset.image?.endsWith(".png") ||
-    listing.asset.image?.endsWith(".jpeg") ||
-    listing.asset.image?.endsWith(".jpg");
+  // const handleImageTypes = (listing: AuctionListing | DirectListing) =>
+  //   listing.asset.image?.endsWith(".png") ||
+  //   listing.asset.image?.endsWith(".jpeg") ||
+  //   listing.asset.image?.endsWith(".jpg");
 
-  const handleGetListingMediaType = (
-    listing: AuctionListing | DirectListing
-  ): JSX.Element => {
-    if (listing.asset.animation_url?.endsWith(".mp4")) {
-      return (
-        <video
-          poster={listing?.asset?.image as string}
-          width={ImageDimensions.width.toString() + "px"}
-          height={ImageDimensions.height.toString() + "px"}
-          src={listing?.asset?.animation_url as string}
-          controls={true}
-        />
-      );
-    } else if (handleImageTypes(listing)) {
-      return (
-        <ImageBox
-          width={ImageDimensions.width.toString() + "px"}
-          height={ImageDimensions.height.toString() + "px"}
-          src={listing?.asset?.image as string}
-          id={listing.id}
-          backgroundColor={"#111111FF"}
-          alt={listing.asset.name || "Art"}
-        />
-      );
-    } else return <span>media not supported</span>;
-  };
+  // const handleGetListingMediaType = (
+  //   listing: AuctionListing | DirectListing
+  // ): JSX.Element => {
+  //   if (listing.asset.animation_url?.endsWith(".mp4")) {
+  //     return (
+  //       <video
+  //         poster={listing?.asset?.image as string}
+  //         width={ImageDimensions.width.toString() + "px"}
+  //         height={ImageDimensions.height.toString() + "px"}
+  //         src={listing?.asset?.animation_url as string}
+  //         controls={true}
+  //       />
+  //     );
+  //   } else if (handleImageTypes(listing)) {
+  //     return (
+  //       <ImageBox
+  //         width={ImageDimensions.width.toString() + "px"}
+  //         height={ImageDimensions.height.toString() + "px"}
+  //         src={listing?.asset?.image as string}
+  //         id={listing.id}
+  //         backgroundColor={"#111111FF"}
+  //         alt={listing.asset.name || "Art"}
+  //       />
+  //     );
+  //   } else return <span>media not supported</span>;
+  // };
 
-  const handleClickImageGridItem = (
-    listing: AuctionListing | DirectListing
-  ) => {
-    setIsLightBoxOpen(() => {
-      setSelectedListing(listing);
-      return true;
-    });
-  };
+  // const handleClickImageGridItem = (
+  //   listing: AuctionListing | DirectListing
+  // ) => {
+  //   setIsLightBoxOpen(() => {
+  //     setSelectedListing(listing);
+  //     return true;
+  //   });
+  // };
 
-  const imageGridItems = listings?.map((listing) => {
-    return (
-      <>
-        <div
-          key={listing.id}
-          className={"fmbs-gallery-grid-item"}
-          onClick={() => handleClickImageGridItem(listing)}
-        >
-          {handleGetListingMediaType(listing)}
-          <h4>{listing.asset.name}</h4>
-          <h6>{listing.sellerAddress}</h6>
-        </div>
-      </>
-    );
-  });
+
+
+  // const imageGridItems = listings?.map((listing) => {
+  //   return (
+  //     <>
+  //       <div
+  //         key={listing.id}
+  //         className={"fmbs-gallery-grid-item"}
+  //         onClick={() => handleClickImageGridItem(listing)}
+  //       >
+  //         {handleGetListingMediaType(listing)}
+  //         <h4>{listing.asset.name}</h4>
+  //         <h6>{listing.sellerAddress}</h6>
+  //       </div>
+  //     </>
+  //   );
+  // });
 
   return (
     <>
-      <div className="fmbs-bg-wrapper">
+      {/* <div className="fmbs-bg-wrapper">
         <div
           className="fmbs-bg"
           style={{
@@ -125,7 +127,7 @@ const Home: NextPage = () => {
           listing={selectedListing}
           onClose={() => setIsLightBoxOpen(false)}
         />
-      )}
+      )} */}
     </>
   );
 };

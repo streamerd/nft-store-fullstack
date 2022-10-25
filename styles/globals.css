@@ -270,6 +270,17 @@ h3 {
     margin-left: 20px;
 }
 
+.fmbs-header__disconnect {
+	border: 0;
+	background: linear-gradient( to left, #201f20, #C81CC5 );
+	font-family: 'Abel', sans-serif;
+	font-size: 18px;
+	color: #fff;
+	padding: 8px 30px;
+    /* border-radius: 10px; */
+    /* margin-left: 20px; */
+}
+
 /**
   NFT GRID
 */
