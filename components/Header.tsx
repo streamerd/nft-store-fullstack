@@ -7,6 +7,8 @@ import fmLogo from "../public/images/fm_logo.png";
 import logoText from "../public/images/fm_logo_text.png";
 import { Orbis } from "@orbisclub/orbis-sdk";
 
+// used this for settings/user profile dropdown:
+//https://mui.com/material-ui/react-app-bar/#app-bar-with-responsive-menu
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -26,22 +28,13 @@ export default function Header() {
   let [did, setDid] = useState(null);
   let orbis = new Orbis();
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -53,13 +46,6 @@ export default function Header() {
     console.log("result from connect >>> ", res);
     setAddress(res.details.metadata.address);
     setDid(res.details.did);
-  }
-
-  async function getProfile() {
-    let { data, error } = await orbis.getProfile(did);
-    data
-      ? console.log("profile data >> ", data)
-      : console.log("error >> ", error);
   }
 
   async function walletConnected() {
@@ -75,17 +61,60 @@ export default function Header() {
       setAddress(null);
     }
   }
+  async function getProfile() {
+    let { data, error } = await orbis.getProfile(did);
+    data
+      ? console.log("profile data >> ", JSON.stringify(data))
+      : console.log("error >> ", error);
+  }
 
-  // async function updateProfile() {
-  //   let res = await orbis.updateProfile({
-  //     pfp: "https://i.seadn.io/gae/WtwW8sgq8dmeMH_hk5VSE7QK4NnIEHa3L796hQwSJzFnI0E8okltHJ4gsV9pexWmM2N-Rdva7q2HcR4KPaXWmPAHTKbsITVeGogz1w?auto=format&w=1080",
-  //     username: "streamerd",
-  //     description: "Peacemaker, techie artist",
-  //     timestamp: "1666656225",
-  //   });
+// second iteration with data and pfp fields included persisted to Ceramic like this:
+// https://cerscan.com/mainnet/stream/kjzl6cwe1jw148hc5qrip4fye2xsx5rviiv58wqsl12rgocgoxdunp6hvtb4792
+  async function updateProfile() {
+    
+    let isConnected = await walletConnected();
 
-  //   console.log("result from updateProfile >>> ", res);
-  // }
+    if (isConnected) {
+      let res = await orbis.updateProfile({
+        pfp: "https://i.seadn.io/gae/WtwW8sgq8dmeMH_hk5VSE7QK4NnIEHa3L796hQwSJzFnI0E8okltHJ4gsV9pexWmM2N-Rdva7q2HcR4KPaXWmPAHTKbsITVeGogz1w?auto=format&w=1080",
+        username: "streamerd",
+        description: "Peacemaker, techie artist",
+        timestamp: "1666656225",
+        pfpIsNft: {
+          chain: "ethereum",
+          contract: "0xc709999489abbb567b8ae8d40ba91930990e7900",
+          tokenId: "0x0000000000000000000000000000000000000000000000000000000000000005",
+          timestamp: Date.now().toString()
+        },
+        data: {
+          "stage_name": "streamerd",
+          "description": "Peacemaker, techie artist. Mostly visual, also experimenting music as coding with sonic-pi synthesizer for fun.",
+          "wallet_address": "0xEd2eF70e8B1EBf95bDfD7ba692454143b2A8263B",
+          "ens_domain": "",
+          "website_url": "https://atyilmaz.com",
+          "twitter_url": "https://twitter.com/_streamerd",
+          "youtube_url": "https://www.youtube.com/channel/UCbqFexBFcfREyGHFtA3DL9Q/",
+          "bandcamp_url": "",
+          "genius_url": "",
+          "instagram_url": "instagram.com/streamerd_/",
+          "facebook_page_url": "",
+          "facebook_profile_url": "",
+          "audius_url": "",
+          "soundcloud_url": "soundcloud.com/atyilmaz",
+          "spotify_url": "",
+          "catalog_url": "",
+          "zora_url": "",
+          "opensea_url": "https://opensea.io/streamerd",
+          "artist_profile_pic": "https://atyilmaz.com/rabbit-holed_01.jpeg",
+          "total_sales" : 0.00
+      }
+      });
+  
+      console.log("result from updateProfile >>> ", res);
+      
+    } else {console.log("user seems disconnected");}
+
+  }
 
   return (
     <div className={`fmbs-header fmbs-bg-wrapper`}>
@@ -144,12 +173,7 @@ export default function Header() {
               </div>
             </li>
             <li className={"fmbs-header-nav__list-item"}>
-              <a
-                className={"fmbs-header-nav__list-link"}
-                href="https://nft-store-fullstack-thirdweb.vercel.app"
-              >
-                Marketplace
-              </a>
+              <a className={"fmbs-header-nav__list-link"}>Marketplace</a>
             </li>
             <li className={"fmbs-header-nav__list-item"}>
               <a className={"fmbs-header-nav__list-link"}>About</a>
@@ -201,6 +225,15 @@ export default function Header() {
                       <Typography textAlign="center">{setting}</Typography>
                     </MenuItem>
                   ))}
+
+<button
+                    className={"fmbs-header__disconnect"}
+                    type="button"
+                    id="walletButton"
+                    onClick={() => updateProfile()}
+                  >
+                    profile
+                  </button>
                   <button
                     className={"fmbs-header__disconnect"}
                     type="button"
