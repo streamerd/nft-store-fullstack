@@ -3,17 +3,86 @@ import {
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
+import React from "react";
+import { useState } from "react";
+
 import { NATIVE_TOKEN_ADDRESS, TransactionResult } from "@thirdweb-dev/sdk";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
+import { Orbis } from "@orbisclub/orbis-sdk";
 
 const Create: NextPage = () => {
   // Next JS Router hook to redirect to other pages
   const router = useRouter();
   const networkMismatch = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
+  let [address, setAddress] = useState(null);
+  let [did, setDid] = useState(null);
+  let orbis = new Orbis();
 
+  async function connectToOrbis() {
+    let res = await orbis.connect();
+    console.log("result from connect >>> ", res);
+    setAddress(res.details.metadata.address);
+    setDid(res.details.did);
+  }
+
+  async function walletConnected() {
+    let isConnected = await orbis.isConnected();
+    return isConnected;
+  }
+
+  async function disconnectWallet() {
+    let isConnected = await walletConnected();
+
+    if (isConnected) {
+      await orbis.logout();
+      setAddress(null);
+    }
+  }
+  async function getProfile() {
+    let { data, error } = await orbis.getProfile(did);
+    data
+      ? console.log("profile data >> ", JSON.stringify(data))
+      : console.log("error >> ", error);
+  }
+
+  async function saveNFTListing(e: any) {
+    e.preventDefault();
+
+    const { contractAddress, tokenId, price } = e.target.elements;
+
+    let isConnected = await walletConnected();
+
+    if (isConnected) {
+      /**  https://orbis.club/documentation/api-documentation/createPost
+       used that access controlled one, so will not be posting to a context for now.
+       updated the value to 0 on returnValueTest: {...} at the end, 
+      so it is not encrypted for anyone to display this way (I guess and hope..)
+      Encrypt posts using custom access control conditions */
+
+      let res = await orbis.createPost({
+        data: {
+          title: "Test NFT",
+          description: "Test NFT description",
+          token_address: "0x19329se..",
+          token_id: "0",
+          creator_wallet_address: "0x0001..",
+          owner_wallet_address: "0x101010...",
+          price: "0.01",
+          file_path: "https://i.imgur.com/Df1tQc3.mp4",
+          is_sold: "false",
+          tags: ["cat", "dog"],
+          available_on: ["opensea_url", "rarible"],
+        },
+      });
+
+      console.log("result from saveNFTListing >>> ", res);
+    } else {
+      console.log("user seems disconnected");
+    }
+  }
   // Connect to our marketplace contract via the useMarketplace hook
   const marketplace = useMarketplace(
     process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
@@ -170,6 +239,7 @@ const Create: NextPage = () => {
           />
 
           <button
+            onClick={(e) => saveNFTListing(e)}
             type="submit"
             className={styles.mainButton}
             style={{ marginTop: 32, borderStyle: "none" }}
