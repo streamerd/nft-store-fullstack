@@ -1,0 +1,31 @@
+{
+  "digitalpurity": {
+    "address": "0x8F45a76B743C58F7CB55318E3e93C171DC4D37DC",
+    "links": [
+      { "type": "twitter", "url": "https://twitter.com/DigitalPurity" },
+      {
+        "type": "instagram",
+        "url": "https://www.instagram.com/digital.purity"
+      },
+      { "type": "foundation", "url": "https://foundation.app/@digitalpurity" },
+      { "type": "rarible", "url": "" },
+      { "type": "opensea", "url": "" },
+      { "type": "showtime", "url": "" }
+    ],
+    "artworks": [
+      {
+        "token_address": "0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405",
+        "token_id": "77001",
+        "block_number_minted": "",
+        "owner_of": "",
+        "block_number": "",
+        "amount": "1",
+        "contract_type": "",
+        "type": "",
+        "symbol": "",
+        "token_uri": "",
+        "metadata": ""
+      }
+    ]
+  }
+}

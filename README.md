@@ -65,7 +65,7 @@ The thirdweb React provider makes it straightforward to let your users connect t
 Open `pages/_app.tsx` we wrap all of our pages in the `<ThirdwebProvider>` component.
 
 ```tsx
-<ThirdwebProvider desiredChainId={ChainId.Rinkeby}>
+<ThirdwebProvider desiredChainId={ChainId.Goerli}>
   <Component {...pageProps} />
 </ThirdwebProvider>
 ```
@@ -224,7 +224,7 @@ async function createBidOrOffer() {
       await marketplace?.direct.makeOffer(
         listingId, // The listingId of the listing we want to make an offer for
         1, // Quantity = 1
-        NATIVE_TOKENS[ChainId.Rinkeby].wrapped.address, // Wrapped Ether address on Rinkeby
+        NATIVE_TOKENS[ChainId.Goerli].wrapped.address, // Wrapped Ether address on Rinkeby
         bidAmount // The offer amount the user entered
       );
     }

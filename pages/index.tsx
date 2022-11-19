@@ -1,82 +1,133 @@
-import type { NextPage } from "next";
-import styles from "../styles/Home.module.css";
+import type { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import {
   MediaRenderer,
   useActiveListings,
   useMarketplace,
 } from "@thirdweb-dev/react";
-import { useRouter } from "next/router";
+import ImageBox from "../components/ImageBox";
+import FeaturedNftsGrid from "../components/FeaturedNftsGrid";
+import bg from "../public/images/shapes_bg.png";
+import { AuctionListing, DirectListing } from "@thirdweb-dev/sdk";
+import { useState } from "react";
+import LightBox from "../components/LightBox";
+
+const enum ImageDimensions {
+  width = 368,
+  height = 368,
+}
 
 const Home: NextPage = () => {
-  const router = useRouter();
-
   // Connect your marketplace smart contract here (replace this address)
-  const marketplace = useMarketplace(
-    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
-  );
+  // const marketplace = useMarketplace(
+  //   process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
+  // );
 
-  const { data: listings, isLoading: loadingListings } =
-    useActiveListings(marketplace);
+  // const {
+  //   data: listings,
+  //   isLoading: loadingListings,
+  //   isFetchedAfterMount,
+  //   isRefetching,
+  // } = useActiveListings(marketplace, {
+  //   // limits amount of nfts to 9 in the featured artists grid
+  //   count: 9,
+  // });
+
+  // const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+  // const [selectedListing, setSelectedListing] = useState<
+  //   AuctionListing | DirectListing
+  // >();
+
+  // const handleImageTypes = (listing: AuctionListing | DirectListing) =>
+  //   listing.asset.image?.endsWith(".png") ||
+  //   listing.asset.image?.endsWith(".jpeg") ||
+  //   listing.asset.image?.endsWith(".jpg");
+
+  // const handleGetListingMediaType = (
+  //   listing: AuctionListing | DirectListing
+  // ): JSX.Element => {
+  //   if (listing.asset.animation_url?.endsWith(".mp4")) {
+  //     return (
+  //       <video
+  //         poster={listing?.asset?.image as string}
+  //         width={ImageDimensions.width.toString() + "px"}
+  //         height={ImageDimensions.height.toString() + "px"}
+  //         src={listing?.asset?.animation_url as string}
+  //         controls={true}
+  //       />
+  //     );
+  //   } else if (handleImageTypes(listing)) {
+  //     return (
+  //       <ImageBox
+  //         width={ImageDimensions.width.toString() + "px"}
+  //         height={ImageDimensions.height.toString() + "px"}
+  //         src={listing?.asset?.image as string}
+  //         id={listing.id}
+  //         backgroundColor={"#111111FF"}
+  //         alt={listing.asset.name || "Art"}
+  //       />
+  //     );
+  //   } else return <span>media not supported</span>;
+  // };
+
+  // const handleClickImageGridItem = (
+  //   listing: AuctionListing | DirectListing
+  // ) => {
+  //   setIsLightBoxOpen(() => {
+  //     setSelectedListing(listing);
+  //     return true;
+  //   });
+  // };
+
+
+
+  // const imageGridItems = listings?.map((listing) => {
+  //   return (
+  //     <>
+  //       <div
+  //         key={listing.id}
+  //         className={"fmbs-gallery-grid-item"}
+  //         onClick={() => handleClickImageGridItem(listing)}
+  //       >
+  //         {handleGetListingMediaType(listing)}
+  //         <h4>{listing.asset.name}</h4>
+  //         <h6>{listing.sellerAddress}</h6>
+  //       </div>
+  //     </>
+  //   );
+  // });
 
   return (
     <>
-      {/* Content */}
-      <div className={styles.container}>
-        {/* Top Section */}
-
-        <h2 className={styles.h2}>introducing bu1dl-store</h2>
-
-        <hr className={styles.divider} />
-
-        <div style={{ marginTop: 32, marginBottom: 32 }}>
-          <Link href="/create">
-            <a className={styles.mainButton} style={{ textDecoration: "none" }}>
-              Create A Listing
-            </a>
-          </Link>
-        </div>
-
-        <div className="main">
-          {
-            // If the listings are loading, show a loading message
-            loadingListings ? (
+      {/* <div className="fmbs-bg-wrapper">
+        <div
+          className="fmbs-bg"
+          style={{
+            backgroundImage: `url(${bg.src})`,
+            backgroundSize: `100% auto`,
+          }}
+        ></div>
+        <div className="fmbs-gallery fmbs-page-content">
+          <>
+            {loadingListings ? (
               <div>Loading listings...</div>
             ) : (
-              // Otherwise, show the listings
-              <div className={styles.listingGrid}>
-                {listings?.map((listing) => (
-                  <div
-                    key={listing.id}
-                    className={styles.listingShortView}
-                    onClick={() => router.push(`/listing/${listing.id}`)}
-                  >
-                    <MediaRenderer
-                      src={listing.asset.image}
-                      style={{
-                        borderRadius: 16,
-                        // Fit the image to the container
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                    <h2 className={styles.nameContainer}>
-                      <Link href={`/listing/${listing.id}`}>
-                        <a className={styles.name}>{listing.asset.name}</a>
-                      </Link>
-                    </h2>
-
-                    <p>
-                      <b>{listing.buyoutCurrencyValuePerToken.displayValue}</b>{" "}
-                      {listing.buyoutCurrencyValuePerToken.symbol}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )
-          }
+              <FeaturedNftsGrid>{imageGridItems}</FeaturedNftsGrid>
+            )}
+          </>
         </div>
       </div>
+      {isLightBoxOpen && (
+        <LightBox
+          alt={selectedListing?.asset.name as string}
+          backgroundColor="blue"
+          height={ImageDimensions.height + "px"}
+          width={ImageDimensions.width + "px"}
+          id="lightbox-dialog"
+          listing={selectedListing}
+          onClose={() => setIsLightBoxOpen(false)}
+        />
+      )} */}
     </>
   );
 };

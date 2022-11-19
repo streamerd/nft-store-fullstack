@@ -4,6 +4,7 @@ import {
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
+
 import {
   AuctionListing,
   ChainId,
@@ -15,6 +16,38 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "../../styles/Home.module.css";
+
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 const ListingPage: NextPage = () => {
   // Next JS Router hook to redirect to other pages and to grab the query from the URL (listingId)
@@ -38,12 +71,23 @@ const ListingPage: NextPage = () => {
 
   // Initialize the marketplace contract
   const marketplace = useMarketplace(
-    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS // Your marketplace contract address here
+    process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS
   );
 
   // Hooks to detect user is on the right network and switch them if they are not
   const networkMismatch = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
+
+  const enum ImageDimensions {
+    width = 368,
+    height = 368,
+  }
+
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   // When the component mounts, ask the marketplace for the listing with the given listingId
   // Using the listingid from the URL (via router.query)
@@ -73,7 +117,7 @@ const ListingPage: NextPage = () => {
     try {
       // Ensure user is on the correct network
       if (networkMismatch) {
-        switchNetwork && switchNetwork(4);
+        switchNetwork && switchNetwork(5);
         return;
       }
 
@@ -82,7 +126,7 @@ const ListingPage: NextPage = () => {
         await marketplace?.direct.makeOffer(
           listingId, // The listingId of the listing we want to make an offer for
           1, // Quantity = 1
-          NATIVE_TOKENS[ChainId.Rinkeby].wrapped.address, // Wrapped Ether address on Rinkeby
+          NATIVE_TOKENS[ChainId.Goerli].wrapped.address, // Wrapped Ether address on Rinkeby
           bidAmount // The offer amount the user entered
         );
       }
@@ -107,7 +151,7 @@ const ListingPage: NextPage = () => {
     try {
       // Ensure user is on the correct network
       if (networkMismatch) {
-        switchNetwork && switchNetwork(4);
+        switchNetwork && switchNetwork(5);
         return;
       }
 
@@ -121,76 +165,164 @@ const ListingPage: NextPage = () => {
   }
 
   return (
+    // <div className={styles.container} style={{}}>
+    //   <div className={styles.listingContainer}>
+
+    //     <div className={styles.leftListing}>
+    //       {/* <MediaRenderer
+    //         src={listing.asset.image}
+    //         className={styles.mainNftImage}
+    //       /> */}
+
+    //       <video
+    //         poster={listing?.asset?.image as string}
+    //         width={ImageDimensions.width.toString() + "px"}
+    //         height={ImageDimensions.height.toString() + "px"}
+    //         src={listing?.asset?.animation_url as string}
+    //         controls={true}
+    //       />
+    //     </div>
+
+    //     <div className={styles.rightListing}>
+    //       <h1>{listing.asset.name}</h1>
+    //       <p>
+    //         Owned by{" "}
+    //         <b>
+    //           {listing.sellerAddress?.slice(0, 6) +
+    //             "..." +
+    //             listing.sellerAddress?.slice(36, 40)}
+    //         </b>
+    //       </p>
+
+    //       <h2>
+    //         <b>{listing.buyoutCurrencyValuePerToken.displayValue}</b>{" "}
+    //         {listing.buyoutCurrencyValuePerToken.symbol}
+    //       </h2>
+
+    //       <div
+    //         style={{
+    //           display: "flex",
+    //           flexDirection: "row",
+    //           gap: 20,
+    //           alignItems: "center",
+    //         }}
+    //       >
+    //         <button
+    //           style={{ borderStyle: "none" }}
+    //           className={styles.mainButton}
+    //           onClick={buyNft}
+    //         >
+    //           Buy
+    //         </button>
+    //         <p style={{ color: "grey" }}>|</p>
+    //         <div
+    //           style={{
+    //             display: "flex",
+    //             flexDirection: "row",
+    //             alignItems: "center",
+    //             gap: 8,
+    //           }}
+    //         >
+    //           <input
+    //             type="text"
+    //             name="bidAmount"
+    //             className={styles.textInput}
+    //             onChange={(e) => setBidAmount(e.target.value)}
+    //             placeholder="Amount"
+    //             style={{ marginTop: 0, marginLeft: 0, width: 128 }}
+    //           />
+    //           <button
+    //             className={styles.mainButton}
+    //             onClick={createBidOrOffer}
+    //             style={{
+    //               borderStyle: "none",
+    //               background: "transparent",
+    //               width: "fit-content",
+    //             }}
+    //           >
+    //             Make Offer
+    //           </button>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+
     <div className={styles.container} style={{}}>
       <div className={styles.listingContainer}>
         <div className={styles.leftListing}>
-          <MediaRenderer
-            src={listing.asset.image}
-            className={styles.mainNftImage}
-          />
-        </div>
-
-        <div className={styles.rightListing}>
-          <h1>{listing.asset.name}</h1>
-          <p>
-            Owned by{" "}
-            <b>
-              {listing.sellerAddress?.slice(0, 6) +
-                "..." +
-                listing.sellerAddress?.slice(36, 40)}
-            </b>
-          </p>
-
-          <h2>
-            <b>{listing.buyoutCurrencyValuePerToken.displayValue}</b>{" "}
-            {listing.buyoutCurrencyValuePerToken.symbol}
-          </h2>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 20,
-              alignItems: "center",
+          {/* https://mui.com/material-ui/react-card/ */}
+          <Card
+            sx={{
+              maxWidth: "480px",
+              marginTop: "62px",
+              marginLeft: "36%",
+              marginRight: "32%",
             }}
           >
-            <button
-              style={{ borderStyle: "none" }}
-              className={styles.mainButton}
-              onClick={buyNft}
-            >
-              Buy
-            </button>
-            <p style={{ color: "grey" }}>|</p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <input
-                type="text"
-                name="bidAmount"
-                className={styles.textInput}
-                onChange={(e) => setBidAmount(e.target.value)}
-                placeholder="Amount"
-                style={{ marginTop: 0, marginLeft: 0, width: 128 }}
-              />
-              <button
-                className={styles.mainButton}
-                onClick={createBidOrOffer}
-                style={{
-                  borderStyle: "none",
-                  background: "transparent",
-                  width: "fit-content",
-                }}
+            <CardHeader
+              avatar={
+                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                  DP
+                </Avatar>
+              }
+              // action={
+              //   <IconButton aria-label="settings">
+              //     <MoreVertIcon />
+              //   </IconButton>
+              // }
+              title={listing.asset.name}
+              subheader={
+                listing.sellerAddress?.slice(0, 6) +
+                "..." +
+                listing.sellerAddress?.slice(36, 40)
+              }
+            />
+            <CardMedia
+              component="img"
+              height="100%"
+              width="100%"
+              image={listing.asset.image}
+              alt={listing.asset.name}
+            />
+            <CardContent>
+              <Typography variant="body2" color="text.secondary">
+                {listing.asset.description}
+              </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+              <IconButton aria-label="buy">
+                <ShoppingCartIcon />
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
+              <ExpandMore
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
               >
-                Make Offer
-              </button>
-            </div>
-          </div>
+                <ExpandMoreIcon />
+              </ExpandMore>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent>
+                <Typography paragraph>Story:</Typography>
+                <Typography paragraph>
+                  Some story paragraph here Some story paragraph here Some story
+                  paragraph here Some story paragraph here Some story paragraph
+                  here Some story paragraph here Some story paragraph here Some
+                  story paragraph here Some story paragraph here
+                </Typography>
+
+                <Typography>finish with some good message to folks</Typography>
+              </CardContent>
+            </Collapse>
+          </Card>
         </div>
       </div>
     </div>
